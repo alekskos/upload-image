@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fileslist</title>
+</head>
+<body>
+    <div id="target">You can drag your file here</div>
+
+    <img id="output" width="800">
+
+    <script>
+        const target = document.getElementById('target');
+        target.addEventListener('drop', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            console.log(e.dataTransfer.files);
+            someFiles(e.dataTransfer.files);
+        });
+        target.addEventListener('dragover', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+
+            e.dataTransfer.dropEffect = 'copy';
+        });
+
+        const output = document.getElementById('output');
+        function someFiles(fileList) {
+            let file = null;
+            for (let i = 0; i < fileList.length; i++) {
+                if (fileList[i].type.match(/^image\//)) {
+                    file = fileList[i];
+                    break;
+                }
+            }
+            if (file !== null) {
+                output.src = URL.createObjectURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
